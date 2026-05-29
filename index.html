@@ -5,90 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineCritica News | Portal de Cinema e Streaming</title>
     <style>
-        /* Estilo para a referência da imagem */
-        .credito-imagem {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5); /* Branco com 50% de transparência */
-            display: block;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        /* Estilos do Carrossel Dinâmico */
-        .carrossel-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            background-color: #000;
-        }
-
-        .carrossel-slides {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            display: flex;
-            align-items: flex-end;
-        }
-
-        .slide.ativo {
-            opacity: 1;
-            z-index: 1;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        /* Degradê escuro para dar leitura ao texto sobre a foto */
-        .info-slide {
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-            width: 100%;
-            padding: 40px 25px 20px 25px;
-            color: white;
-            z-index: 2;
-        }
-
-        .categoria-filme {
-            background-color: var(--cor-destaque);
-            color: white;
-            font-size: 11px;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-
-        .info-slide h3 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-
-        .info-slide p {
-            color: #e0e0e0;
-            font-size: 14px;
-            margin: 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
         /* Variáveis de Cores para os Temas (Claro e Escuro) */
         :root {
             --bg-principal: #f8f9fa;
@@ -97,6 +13,7 @@
             --texto-secundario: #6c757d;
             --borda: #dee2e6;
             --cor-destaque: #e50914; /* Vermelho estilo streaming */
+            --bg-info-slide: #e9ecef;
         }
 
         [data-theme="dark"] {
@@ -106,6 +23,7 @@
             --texto-secundario: #b3b3b3;
             --borda: #2d2d2d;
             --cor-destaque: #ff1e27;
+            --bg-info-slide: #252525;
         }
 
         /* Configurações Gerais */
@@ -185,11 +103,98 @@
             margin-bottom: 30px;
         }
 
-        .imagem-manchete {
+        /* Estilos do Carrossel Dinâmico Sem Cortes */
+        .carrossel-container {
+            position: relative;
             width: 100%;
-            height: 400px;
-            object-fit: cover;
+            height: 450px;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .carrossel-slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide.ativo {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* object-fit: contain garante que a imagem não seja cortada independente da proporção */
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000000;
+        }
+
+        /* Área de Informações Organizada Abaixo da Imagem */
+        .info-slide-container {
+            background-color: var(--bg-info-slide);
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--borda);
+            min-height: 140px;
+        }
+
+        .info-slide {
+            display: none;
+            animation: fadeInTexto 0.5s ease forward;
+        }
+
+        .info-slide.ativo-texto {
             display: block;
+        }
+
+        @keyframes fadeInTexto {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .categoria-filme {
+            background-color: var(--cor-destaque);
+            color: white;
+            font-size: 11px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .info-slide h3 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            color: var(--texto-principal);
+        }
+
+        .info-slide p {
+            color: var(--texto-secundario);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .credito-imagem {
+            font-size: 10px;
+            color: var(--texto-secundario);
+            display: block;
+            margin-top: 8px;
+            font-style: italic;
+            opacity: 0.7;
         }
 
         .conteudo-noticia {
@@ -209,11 +214,6 @@
             font-size: 28px;
             margin-bottom: 15px;
             color: var(--texto-principal);
-        }
-
-        p {
-            color: var(--texto-secundario);
-            margin-bottom: 15px;
         }
 
         /* Mecanismo de Mostrar/Esconder Texto */
@@ -306,63 +306,72 @@
         <div class="grid-noticias">
             
             <section>
-    <div class="manchete-principal">
-        
-        <div class="carrossel-container">
-            <div class="carrossel-slides" id="carrosselSlides">
-                
-                <div class="slide ativo">
-                    <img src="duna.jpg" alt="Duna"
-                    <div class="info-slide">
-                        <span class="categoria-filme">Ficção Científica</span>
-                        <h3>Duna: Parte Dois</h3>
-                        <p>A aclamada jornada de Paul Atreides continua em uma produção visualmente espetacular que redefine o cinema de ficção científica.</p>
+                <div class="manchete-principal">
+                    
+                    <div class="carrossel-container">
+                        <div class="carrossel-slides" id="carrosselSlides">
+                            
+                            <div class="slide ativo">
+                                <img src="duna.jpg" alt="Duna">
+                            </div>
+
+                            <div class="slide">
+                                <img src="inter.jpg" alt="Interestelar">
+                            </div>
+
+                            <div class="slide">
+                                <img src="batman.jpg" alt="The Batman">
+                            </div>
+
+                        </div>
                     </div>
-                </div>
 
-                <div class="slide">
-                    <img src="inter.jpg" alt="Interestelar"
-                    <div class="info-slide">
-                        <span class="categoria-filme">Clássico Moderno</span>
-                        <h3>Interestelar</h3>
-                        <p>Uma obra-prima de Christopher Nolan que explora os limites do espaço, do tempo e das conexões humanas.</p>
+                    <div class="info-slide-container">
+                        
+                        <div class="info-slide ativo-texto">
+                            <span class="categoria-filme">Ficção Científica</span>
+                            <h3>Duna: Parte Dois</h3>
+                            <p>A aclamada jornada de Paul Atreides continua em uma produção visualmente espetacular que redefine o cinema de ficção científica.</p>
+                            <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
+                        </div>
+
+                        <div class="info-slide">
+                            <span class="categoria-filme">Clássico Moderno</span>
+                            <h3>Interestelar</h3>
+                            <p>Uma obra-prima de Christopher Nolan que explora os limites do espaço, do tempo e das conexões humanas.</p>
+                            <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
+                        </div>
+
+                        <div class="info-slide">
+                            <span class="categoria-filme">Ação / Noir</span>
+                            <h3>The Batman</h3>
+                            <p>Uma abordagem sombria e investigativa do herói de Gotham, focada nos seus primeiros anos de combate ao crime.</p>
+                            <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
+                        </div>
+
                     </div>
-                </div>
 
-                <div class="slide">
-                    <img src="batman.jpg" alt="The Batman"
-                    <div class="info-slide">
-                        <span class="categoria-filme">Ação / Noir</span>
-                        <h3>The Batman</h3>
-                        <p>Uma abordagem sombria e investigativa do herói de Gotham, focada nos seus primeiros anos de combate ao crime.</p>
+                    <div class="conteudo-noticia">
+                        <span class="categoria">Destaques da Semana</span>
+                        <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
+                        <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
+                        
+                        <div class="conteudo-extra">
+                            <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
+                        </div>
+
+                        <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
                     </div>
+
                 </div>
-
-            </div>
-
-        </div>
-
-        <div class="conteudo-noticia">
-            <span class="categoria">Destaques da Semana</span>
-            <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
-            <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
-            
-            <div class="conteudo-extra">
-                <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
-            </div>
-
-            <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
-        </div>
-
-    </div>
-</section>
+            </section>
 
             <aside class="feed-lateral">
                 <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Atualizações</h2>
                 
                 <div class="card-noticia">
                     <span class="categoria">Streaming</span>
-                    <h3>Telecine renova catálogo com os maiores sucessos do cinema cult e de ação</h3>
+                    <h3>Telecine renova catálogo com os maiores successes do cinema cult e de ação</h3>
                     <p>A plataforma confirmou a chegada de pacotes de filmes premiados em festivais internacionais para o próximo mês.</p>
                     
                     <div class="conteudo-extra">
@@ -426,22 +435,24 @@
             }
         }
 
-        // Lógica do Carrossel Automático
-        const slides = document.querySelectorAll('.slide');
+        // Lógica Sincronizada do Carrossel (Imagens e Textos de Forma Independente)
+        const slidesImagens = document.querySelectorAll('.slide');
+        const slidesTextos = document.querySelectorAll('.info-slide');
         let slideAtual = 0;
 
         function proximoSlide() {
-            // Remove a classe 'ativo' do slide atual
-            slides[slideAtual].classList.remove('ativo');
+            // Sincroniza Imagens
+            slidesImagens[slideAtual].classList.remove('ativo');
+            // Sincroniza Textos Informativos Abaixo
+            slidesTextos[slideAtual].classList.remove('ativo-texto');
             
-            // Avança para o próximo slide (e volta pro zero se chegar no fim)
-            slideAtual = (slideAtual + 1) % slides.length;
+            slideAtual = (slideAtual + 1) % slidesImagens.length;
             
-            // Adiciona a classe 'ativo' no novo slide
-            slides[slideAtual].classList.add('ativo');
+            slidesImagens[slideAtual].classList.add('ativo');
+            slidesTextos[slideAtual].classList.add('ativo-texto');
         }
 
-        // Define para mudar de slide a cada 3000 milissegundos (3 segundos)
+        // Configuração de Intervalo Automático de 3 segundos
         setInterval(proximoSlide, 3000);
     </script>
 
