@@ -3,124 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil | Mini Rede Social</title>
+    <title>TechNews | Seu Portal de Notícias</title>
     <style>
-        /* Estilização básica para dar cara de Rede Social */
+        /* Variáveis de Cores para os Temas */
+        :root {
+            --bg-principal: #f8f9fa;
+            --bg-card: #ffffff;
+            --texto-principal: #212529;
+            --texto-secundario: #6c757d;
+            --borda: #dee2e6;
+            --cor-destaque: #007bff;
+        }
+
+        [data-theme="dark"] {
+            --bg-principal: #121212;
+            --bg-card: #1e1e1e;
+            --texto-principal: #e0e0e0;
+            --texto-secundario: #a0a0a0;
+            --borda: #333333;
+            --cor-destaque: #375a7f;
+        }
+
+        /* Configurações Gerais */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--borda);
+            padding: 15px 5%;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .card-perfil {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-            text-align: center;
-            padding-bottom: 20px;
-        }
-        .header-bg {
-            background: linear-gradient(135deg, #007bff, #00c6ff);
-            height: 100px;
-        }
-        .foto-perfil {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid white;
-            margin-top: -60px;
-            object-fit: cover;
-        }
-        h1 {
-            margin: 10px 0 5px 0;
-            color: #333;
+
+        .logo {
             font-size: 24px;
-        }
-        .subtitulo {
-            color: #65676b;
-            font-size: 16px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        .secao {
-            padding: 0 30px;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        h2 {
-            font-size: 18px;
-            color: #1c1e21;
-            border-bottom: 1px solid #e4e6eb;
-            padding-bottom: 5px;
-        }
-        p {
-            color: #4b4f56;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        ul {
-            padding-left: 20px;
-            color: #4b4f56;
-            font-size: 14px;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-        .btn-link {
-            display: inline-block;
-            background-color: #1877f2;
-            color: white;
+            font-weight: bold;
+            color: var(--cor-destaque);
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+        }
+
+        /* Botão de Alternar Tema */
+        .btn-tema {
+            background-color: var(--cor-destaque);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
             font-weight: bold;
             font-size: 14px;
-            transition: background 0.2s;
         }
-        .btn-link:hover {
-            background-color: #166fe5;
+
+        /* Container Principal com Uso Amplo da Tela */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Layout em Grid estilo Portal de Notícias */
+        .grid-noticias {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .grid-noticias {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Manhete Principal */
+        .manchete-principal {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--borda);
+            margin-bottom: 30px;
+        }
+
+        .img-placeholder {
+            background-color: #ced4da;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #495057;
+            font-weight: bold;
+        }
+
+        .conteudo-noticia {
+            padding: 25px;
+        }
+
+        .categoria {
+            color: var(--cor-destaque);
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--texto-principal);
+        }
+
+        p {
+            color: var(--texto-secundario);
+            margin-bottom: 15px;
+        }
+
+        /* Feed Lateral e Secundário */
+        .feed-lateral {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-noticia {
+            background-color: var(--bg-card);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .card-noticia h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .btn-leia-mais {
+            color: var(--cor-destaque);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-leia-mais:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="card-perfil">
+    <header>
+        <a href="#" class="logo">🗲 TechNews</a>
+        <button class="btn-tema" id="toggleTema">Alternar Modo</button>
+    </header>
+
+    <main class="container">
+        <div class="grid-noticias">
+            
+            <section>
+                <article class="manchete-principal">
+                    <div class="img-placeholder">Imagem de Destaque (Largura Total)</div>
+                    <div class="conteudo-noticia">
+                        <span class="categoria">Tecnologia</span>
+                        <h2>Nova inteligência artificial revoluciona a criação de interfaces web</h2>
+                        <p>Desenvolvedores ao redor do mundo começam a adotar novas ferramentas que automatizam linhas de código estruturais, otimizando o tempo de resposta e melhorando a acessibilidade para o usuário final.</p>
+                        <a href="#" class="btn-leia-mais">Ler reportagem completa →</a>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="feed-lateral">
+                <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Notícias</h2>
+                
+                <div class="card-noticia">
+                    <span class="categoria">Negócios</span>
+                    <h3>Mercado de trabalho busca especialistas em front-end em 2026</h3>
+                    <p>A demanda por profissionais que dominam HTML estrutural e CSS dinâmico cresceu cerca de 25% neste semestre.</p>
+                    <a href="#" class="btn-leia-mais">Ler mais</a>
+                </div>
+
+                <div class="card-noticia">
+                    <span class="categoria">Inovação</span>
+                    <h3>Telas OLED de última geração mudam a forma de navegar</h3>
+                    <p>Novos displays aproveitam melhor os tons escuros, economizando até 15% mais energia com o Dark Mode ativo.</p>
+                    <a href="#" class="btn-leia-mais">Ler mais</a>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <script>
+        const botaoTema = document.getElementById('toggleTema');
         
-        <div class="header-bg"></div>
-
-        <img src="https://via.placeholder.com/150" alt="Foto de Perfil" class="foto-perfil">
-
-        <h1>Nome do Personagem</h1>
-
-        <div class="subtitulo">Sua Profissão, Função ou Classe</div>
-
-        <div class="secao">
-            <h2>Sobre mim</h2>
-            <p>
-                Escreva aqui um parágrafo curto contando a história do seu personagem, 
-                suas principais motivações, de onde ele vem ou o que ele faz no dia a dia.
-            </p>
-        </div>
-
-        <div class="secao">
-            <h2>Interesses e Hobbies</h2>
-            <ul>
-                <li>Interesse ou Habilidade 1</li>
-                <li>Interesse ou Habilidade 2</li>
-                <li>Interesse ou Habilidade 3</li>
-            </ul>
-        </div>
-
-        <div class="secao" style="text-align: center;">
-            <a href="https://www.google.com" target="_blank" class="btn-link">Ver Site Oficial</a>
-        </div>
-
-    </div>
+        botaoTema.addEventListener('click', () => {
+            // Verifica se o tema atual é dark, se for muda para light, se não muda para dark
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
 
 </body>
 </html>
