@@ -58,7 +58,6 @@
             text-decoration: none;
         }
 
-        /* Botão de Alternar Tema */
         .btn-tema {
             background-color: var(--cor-destaque);
             color: white;
@@ -70,14 +69,14 @@
             font-size: 14px;
         }
 
-        /* Container Principal com Uso Amplo da Tela */
+        /* Container Principal */
         .container {
             max-width: 1400px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
-        /* Layout em Grid estilo Portal de Notícias */
+        /* Layout em Grid */
         .grid-noticias {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -90,7 +89,7 @@
             }
         }
 
-        /* Manhete Principal */
+        /* Manchete Principal */
         .manchete-principal {
             background-color: var(--bg-card);
             border-radius: 8px;
@@ -134,7 +133,26 @@
             margin-bottom: 15px;
         }
 
-        /* Feed Lateral e Secundário */
+        /* O SEGREDO: Esconder o conteúdo extra por padrão */
+        .conteudo-extra {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--borda);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Classe que o JS vai colocar para mostrar o texto */
+        .conteudo-extra.visivel {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Feed Lateral */
         .feed-lateral {
             display: flex;
             flex-direction: column;
@@ -153,14 +171,19 @@
             margin-bottom: 10px;
         }
 
-        .btn-leia-mais {
+        /* Botão estilizado para parecer link, mas funciona como gatilho */
+        .btn-expandir {
+            background: none;
+            border: none;
             color: var(--cor-destaque);
-            text-decoration: none;
             font-weight: bold;
             font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
         }
 
-        .btn-leia-mais:hover {
+        .btn-expandir:hover {
             text-decoration: underline;
         }
     </style>
@@ -182,7 +205,13 @@
                         <span class="categoria">Tecnologia</span>
                         <h2>Nova inteligência artificial revoluciona a criação de interfaces web</h2>
                         <p>Desenvolvedores ao redor do mundo começam a adotar novas ferramentas que automatizam linhas de código estruturais, otimizando o tempo de resposta e melhorando a acessibilidade para o usuário final.</p>
-                        <a href="#" class="btn-leia-mais">Ler reportagem completa →</a>
+                        
+                        <div class="conteudo-extra">
+                            <p>Esta nova tecnologia analisa esboços simples feitos à mão e os transforma em código estruturado em menos de cinco segundos. Grandes empresas de tecnologia afirmam que isso reduzirá o tempo de desenvolvimento de protótipos em até 70%.</p>
+                            <p>Contudo, especialistas alertam que a revisão humana ainda é indispensável para garantir que as regras de acessibilidade e semântica do HTML sejam seguidas à risca.</p>
+                        </div>
+
+                        <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
                     </div>
                 </article>
             </section>
@@ -194,14 +223,24 @@
                     <span class="categoria">Negócios</span>
                     <h3>Mercado de trabalho busca especialistas em front-end em 2026</h3>
                     <p>A demanda por profissionais que dominam HTML estrutural e CSS dinâmico cresceu cerca de 25% neste semestre.</p>
-                    <a href="#" class="btn-leia-mais">Ler mais</a>
+                    
+                    <div class="conteudo-extra">
+                        <p>As vagas concentram-se em empresas de tecnologia e finanças, que buscam modernizar seus sistemas internos para rodar diretamente em navegadores de forma ultra-rápida.</p>
+                    </div>
+
+                    <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
                 </div>
 
                 <div class="card-noticia">
                     <span class="categoria">Inovação</span>
                     <h3>Telas OLED de última geração mudam a forma de navegar</h3>
                     <p>Novos displays aproveitam melhor os tons escuros, economizando até 15% mais energia com o Dark Mode ativo.</p>
-                    <a href="#" class="btn-leia-mais">Ler mais</a>
+                    
+                    <div class="conteudo-extra">
+                        <p>Fabricantes de monitores começaram a enviar atualizações de firmware que detectam o código do site para suavizar o brilho automaticamente, protegendo a visão do usuário em ambientes escuros.</p>
+                    </div>
+
+                    <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
                 </div>
             </aside>
 
@@ -209,16 +248,36 @@
     </main>
 
     <script>
+        // Função do Modo Claro/Escuro
         const botaoTema = document.getElementById('toggleTema');
-        
         botaoTema.addEventListener('click', () => {
-            // Verifica se o tema atual é dark, se for muda para light, se não muda para dark
             if (document.documentElement.getAttribute('data-theme') === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'light');
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
         });
+
+        // NOVA FUNÇÃO: Expandir e recolher a notícia na mesma página
+        function toggleNoticia(botao) {
+            // Encontra a div de conteúdo extra que está logo antes do botão clicado
+            const conteudoExtra = botao.previousElementSibling;
+            
+            // Alterna a classe 'visivel' que controla o display no CSS
+            conteudoExtra.classList.toggle('visivel');
+            
+            // Altera o texto do botão baseado no estado
+            if (conteudoExtra.classList.contains('visivel')) {
+                botao.textContent = "Ler menos ↑";
+            } else {
+                // Se for a manchete principal, coloca o texto longo, se não, coloca o curto
+                if (botao.closest('.manchete-principal')) {
+                    botao.textContent = "Ler reportagem completa →";
+                } else {
+                    botao.textContent = "Ler mais";
+                }
+            }
+        }
     </script>
 
 </body>
