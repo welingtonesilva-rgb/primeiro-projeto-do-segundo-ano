@@ -297,9 +297,12 @@
 </head>
 <body>
 
-    <header>
+        <header>
         <a href="#" class="logo">🎬 CineCritica News</a>
-        <button class="btn-tema" id="toggleTema">Alternar Modo</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="btn-tema" id="btnOuvir" style="background-color: #2b2b2b; border: 1px solid var(--borda);">🤖 Ouvir IA</button>
+            <button class="btn-tema" id="toggleTema">Alternar Modo</button>
+        </div>
     </header>
 
     <main class="container">
@@ -454,6 +457,38 @@
 
         // Configuração de Intervalo Automático de 3 segundos
         setInterval(proximoSlide, 3000);
+
+        // Configuração da Assistente de Voz por Inteligência Artificial
+        const btnOuvir = document.getElementById('btnOuvir');
+
+        function iniciarVozIA() {
+            // Verifica se o navegador suporta síntese de voz
+            if ('speechSynthesis' in window) {
+                // Cancela qualquer áudio que já esteja rodando para não encavalar
+                window.speechSynthesis.cancel();
+
+                // Texto que a IA vai falar
+                const textoParaFalar = "Olá! Bem-vindo ao CineCrítica News. Eu sou a sua assistente virtual de inteligência artificial. Os destaques de hoje trazem os recordes de bilheteria de Duna Parte Dois, as novidades cult no catálogo do Telecine e como as notas do I M D B estão mudando o mercado de streaming. Clique nos cartões para ler as críticas completas!";
+
+                // Cria a estrutura de fala
+                const fala = new SpeechSynthesisUtterance(textoParaFalar);
+                
+                // Configura o idioma para Português do Brasil
+                fala.lang = 'pt-BR';
+                // Velocidade da voz (1 é o padrão, um pouquinho menos deixa mais natural)
+                fala.rate = 0.95; 
+                // Tom da voz
+                fala.pitch = 1; 
+
+                // Executa a voz
+                window.speechSynthesis.speak(fala);
+            } else {
+                alert("Desculpe, seu navegador não suporta a leitura de texto por voz.");
+            }
+        }
+
+        // Ativa a voz quando o usuário clica no botão "Ouvir IA"
+        btnOuvir.addEventListener('click', iniciarVozIA);
     </script>
 
 </body>
