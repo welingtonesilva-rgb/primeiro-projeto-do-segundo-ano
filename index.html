@@ -5,6 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineCritica News | Portal de Cinema e Streaming</title>
     <style>
+        /* Estilos do Carrossel Dinâmico */
+        .carrossel-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .carrossel-slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .slide.ativo {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Degradê escuro para dar leitura ao texto sobre a foto */
+        .info-slide {
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            width: 100%;
+            padding: 40px 25px 20px 25px;
+            color: white;
+            z-index: 2;
+        }
+
+        .categoria-filme {
+            background-color: var(--cor-destaque);
+            color: white;
+            font-size: 11px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .info-slide h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .info-slide p {
+            color: #e0e0e0;
+            font-size: 14px;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
         /* Variáveis de Cores para os Temas (Claro e Escuro) */
         :root {
             --bg-principal: #f8f9fa;
@@ -340,6 +415,24 @@
                 }
             }
         }
+
+        // Lógica do Carrossel Automático
+        const slides = document.querySelectorAll('.slide');
+        let slideAtual = 0;
+
+        function proximoSlide() {
+            // Remove a classe 'ativo' do slide atual
+            slides[slideAtual].classList.remove('ativo');
+            
+            // Avança para o próximo slide (e volta pro zero se chegar no fim)
+            slideAtual = (slideAtual + 1) % slides.length;
+            
+            // Adiciona a classe 'ativo' no novo slide
+            slides[slideAtual].classList.add('ativo');
+        }
+
+        // Define para mudar de slide a cada 3000 milissegundos (3 segundos)
+        setInterval(proximoSlide, 3000);
     </script>
 
 </body>
