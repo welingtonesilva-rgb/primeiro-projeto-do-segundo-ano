@@ -3,49 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechNews | Seu Portal de Notícias</title>
+    <title>CineCritica News | Portal de Cinema e Streaming</title>
     <style>
-        /* Estilização do Rodapé */
-        .rodape-portal {
-            background-color: var(--bg-card);
-            border-top: 1px solid var(--borda);
-            padding: 30px 20px;
-            margin-top: 50px;
-            text-align: center;
-        }
-
-        .conteudo-rodape p {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--texto-secundario);
-        }
-
-        .link-oficial {
-            color: var(--cor-destaque);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .link-oficial:hover {
-            text-decoration: underline;
-        }
-        /* Variáveis de Cores para os Temas */
+        /* Variáveis de Cores para os Temas (Claro e Escuro) */
         :root {
             --bg-principal: #f8f9fa;
             --bg-card: #ffffff;
             --texto-principal: #212529;
             --texto-secundario: #6c757d;
             --borda: #dee2e6;
-            --cor-destaque: #007bff;
+            --cor-destaque: #e50914; /* Vermelho estilo streaming */
         }
 
         [data-theme="dark"] {
-            --bg-principal: #121212;
-            --bg-card: #1e1e1e;
-            --texto-principal: #e0e0e0;
-            --texto-secundario: #a0a0a0;
-            --borda: #333333;
-            --cor-destaque: #375a7f;
+            --bg-principal: #111111;
+            --bg-card: #1c1c1c;
+            --texto-principal: #f5f5f5;
+            --texto-secundario: #b3b3b3;
+            --borda: #2d2d2d;
+            --cor-destaque: #ff1e27;
         }
 
         /* Configurações Gerais */
@@ -80,6 +56,9 @@
             font-weight: bold;
             color: var(--cor-destaque);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-tema {
@@ -93,7 +72,7 @@
             font-size: 14px;
         }
 
-        /* Container Principal */
+        /* Container Principal (Aproveita telas largas) */
         .container {
             max-width: 1400px;
             margin: 30px auto;
@@ -122,15 +101,11 @@
             margin-bottom: 30px;
         }
 
-        .img-placeholder {
-            background-color: #ced4da;
+        .imagem-manchete {
             width: 100%;
             height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #495057;
-            font-weight: bold;
+            object-fit: cover;
+            display: block;
         }
 
         .conteudo-noticia {
@@ -157,7 +132,7 @@
             margin-bottom: 15px;
         }
 
-        /* O SEGREDO: Esconder o conteúdo extra por padrão */
+        /* Mecanismo de Mostrar/Esconder Texto */
         .conteudo-extra {
             display: none;
             margin-top: 15px;
@@ -166,7 +141,6 @@
             animation: fadeIn 0.5s ease;
         }
 
-        /* Classe que o JS vai colocar para mostrar o texto */
         .conteudo-extra.visivel {
             display: block;
         }
@@ -195,7 +169,7 @@
             margin-bottom: 10px;
         }
 
-        /* Botão estilizado para parecer link, mas funciona como gatilho */
+        /* Links que funcionam como botões */
         .btn-expandir {
             background: none;
             border: none;
@@ -210,12 +184,37 @@
         .btn-expandir:hover {
             text-decoration: underline;
         }
+
+        /* Rodapé */
+        .rodape-portal {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--borda);
+            padding: 30px 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .conteudo-rodape p {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--texto-secundario);
+        }
+
+        .link-oficial {
+            color: var(--cor-destaque);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-oficial:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="#" class="logo">🗲 TechNews</a>
+        <a href="#" class="logo">🎬 CineCritica News</a>
         <button class="btn-tema" id="toggleTema">Alternar Modo</button>
     </header>
 
@@ -223,46 +222,46 @@
         <div class="grid-noticias">
             
             <section>
-    <article class="manchete-principal">
-        
-        <img src="http://googleusercontent.com/image_collection/image_retrieval/10958229670621652680" alt="Cenário de Blade Runner" style="width: 100%; height: 400px; object-fit: cover; display: block;">
-        
-        <div class="conteudo-noticia">
-            <span class="categoria">Cinema & Tecnologia</span>
-            <h2>Inteligência Artificial e o futuro de Blade Runner: Ficção ou nossa próxima realidade?</h2>
-            <p>O clássico do cinema que previu cidades hiperconectadas, hologramas inteligentes e androides vivendo entre humanos ganha novos debates à medida que o mundo real avança a passos largos em direção ao ano de 2049.</p>
-            
-            <div class="conteudo-extra">
-                <p>Especialistas em tecnologia apontam que tecnologias vistas no filme, como assistentes virtuais com consciência holográfica e reconhecimento de voz extremamente avançado, deixaram de ser apenas roteiro de cinema.</p>
-                <p>A grande questão discutida no fórum internacional de tecnologia desta semana é: como a sociedade vai lidar com a linha tênue entre o que é gerado por algoritmos e o que é genuinamente humano?</p>
-            </div>
+                <article class="manchete-principal">
+                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop" alt="Cinema" class="imagem-manchete">
+                    
+                    <div class="conteudo-noticia">
+                        <span class="categoria">Bilheteria & Crítica</span>
+                        <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
+                        <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
+                        
+                        <div class="conteudo-extra">
+                            <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
+                            <p>De acordo com os dados consolidados do IMDb, a nota do público abriu em sólidos 8.4, contrastando com a média da crítica especializada, que se manteve em mornos 62%. Esse fenômeno reforça a tendência atual onde o apelo popular e o comercial superam as exigências técnicas da crítica tradicional.</p>
+                        </div>
 
-            <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
-        </div>
-    </article>
-</section>
+                        <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
+                    </div>
+                </article>
+            </section>
+
             <aside class="feed-lateral">
-                <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Notícias</h2>
+                <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Atualizações</h2>
                 
                 <div class="card-noticia">
-                    <span class="categoria">Negócios</span>
-                    <h3>Mercado de trabalho busca especialistas em front-end em 2026</h3>
-                    <p>A demanda por profissionais que dominam HTML estrutural e CSS dinâmico cresceu cerca de 25% neste semestre.</p>
+                    <span class="categoria">Streaming</span>
+                    <h3>Telecine renova catálogo com os maiores sucessos do cinema cult e de ação</h3>
+                    <p>A plataforma confirmou a chegada de pacotes de filmes premiados em festivais internacionais para o próximo mês.</p>
                     
                     <div class="conteudo-extra">
-                        <p>As vagas concentram-se em empresas de tecnologia e finanças, que buscam modernizar seus sistemas internos para rodar diretamente em navegadores de forma ultra-rápida.</p>
+                        <p>Entre os destaques estão produções independentes que surpreenderam o circuito europeu e grandes franquias de ação remasterizadas. A curadoria promete agradar tanto os cinéfilos que buscam narrativas profundas quanto aqueles que procuram puro entretenimento de alta qualidade para o fim de semana.</p>
                     </div>
 
                     <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
                 </div>
 
                 <div class="card-noticia">
-                    <span class="categoria">Inovação</span>
-                    <h3>Telas OLED de última geração mudam a forma de navegar</h3>
-                    <p>Novos displays aproveitam melhor os tons escuros, economizando até 15% mais energia com o Dark Mode ativo.</p>
+                    <span class="categoria">Tendências</span>
+                    <h3>Como as listas do IMDb estão moldando o que as pessoas assistem</h3>
+                    <p>Algoritmos de recomendação e as famosas listas de "Top 250" viraram o principal guia para quem não quer perder tempo escolhendo filme.</p>
                     
                     <div class="conteudo-extra">
-                        <p>Fabricantes de monitores começaram a enviar atualizações de firmware que detectam o código do site para suavizar o brilho automaticamente, protegendo a visão do usuário em ambientes escuros.</p>
+                        <p>Pesquisas recentes indicam que 70% dos usuários consultam a nota da comunidade antes de dar o play em uma nova produção. Títulos antigos que entram para as listas de destaques da plataforma chegam a ter um aumento de até 40% na procura dentro dos serviços de streaming parceiros.</p>
                     </div>
 
                     <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
@@ -271,6 +270,17 @@
 
         </div>
     </main>
+
+    <footer class="rodape-portal">
+        <div class="conteudo-rodape">
+            <p>&copy; 2026 CineCritica News. O seu guia definitivo de cinema e streaming.</p>
+            <p>Fontes oficiais: 
+                <a href="https://www.imdb.com" target="_blank" class="link-oficial">
+                    Confira as notas e fichas técnicas completas no IMDb ↗
+                </a>
+            </p>
+        </div>
+    </footer>
 
     <script>
         // Função do Modo Claro/Escuro
@@ -283,19 +293,14 @@
             }
         });
 
-        // NOVA FUNÇÃO: Expandir e recolher a notícia na mesma página
+        // Função para Expandir/Recolher Notícias
         function toggleNoticia(botao) {
-            // Encontra a div de conteúdo extra que está logo antes do botão clicado
             const conteudoExtra = botao.previousElementSibling;
-            
-            // Alterna a classe 'visivel' que controla o display no CSS
             conteudoExtra.classList.toggle('visivel');
             
-            // Altera o texto do botão baseado no estado
             if (conteudoExtra.classList.contains('visivel')) {
                 botao.textContent = "Ler menos ↑";
             } else {
-                // Se for a manchete principal, coloca o texto longo, se não, coloca o curto
                 if (botao.closest('.manchete-principal')) {
                     botao.textContent = "Ler reportagem completa →";
                 } else {
@@ -304,16 +309,6 @@
             }
         }
     </script>
-    <footer class="rodape-portal">
-        <div class="conteudo-rodape">
-            <p>&copy; 2026 TechNews. Todos os direitos reservados aos seus respectivos criadores.</p>
-            <p>Fontes oficiais: 
-                <a href="https://www.imdb.com/title/tt1856101/" target="_blank" class="link-oficial">
-                    Acesse a Página Oficial no IMDb ↗
-                </a>
-            </p>
-        </div>
-    </footer>
 
 </body>
 </html>
