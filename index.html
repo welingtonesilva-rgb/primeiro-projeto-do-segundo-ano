@@ -222,23 +222,55 @@
         <div class="grid-noticias">
             
             <section>
-                <article class="manchete-principal">
-                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop" alt="Cinema" class="imagem-manchete">
-                    
-                    <div class="conteudo-noticia">
-                        <span class="categoria">Bilheteria & Crítica</span>
-                        <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
-                        <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
-                        
-                        <div class="conteudo-extra">
-                            <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
-                            <p>De acordo com os dados consolidados do IMDb, a nota do público abriu em sólidos 8.4, contrastando com a média da crítica especializada, que se manteve em mornos 62%. Esse fenômeno reforça a tendência atual onde o apelo popular e o comercial superam as exigências técnicas da crítica tradicional.</p>
-                        </div>
-
-                        <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
+    <div class="manchete-principal">
+        
+        <div class="carrossel-container">
+            <div class="carrossel-slides" id="carrosselSlides">
+                
+                <div class="slide ativo">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop" alt="Duna">
+                    <div class="info-slide">
+                        <span class="categoria-filme">Ficção Científica</span>
+                        <h3>Duna: Parte Dois</h3>
+                        <p>A aclamada jornada de Paul Atreides continua em uma produção visualmente espetacular que redefine o cinema de ficção científica.</p>
                     </div>
-                </article>
-            </section>
+                </div>
+
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" alt="Interestelar">
+                    <div class="info-slide">
+                        <span class="categoria-filme">Clássico Moderno</span>
+                        <h3>Interestelar</h3>
+                        <p>Uma obra-prima de Christopher Nolan que explora os limites do espaço, do tempo e das conexões humanas.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop" alt="The Batman">
+                    <div class="info-slide">
+                        <span class="categoria-filme">Ação / Noir</span>
+                        <h3>The Batman</h3>
+                        <p>Uma abordagem sombria e investigativa do herói de Gotham, focada nos seus primeiros anos de combate ao crime.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="conteudo-noticia">
+            <span class="categoria">Destaques da Semana</span>
+            <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
+            <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
+            
+            <div class="conteudo-extra">
+                <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
+            </div>
+
+            <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
+        </div>
+
+    </div>
+</section>
 
             <aside class="feed-lateral">
                 <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Atualizações</h2>
