@@ -14,6 +14,7 @@
             --borda: #dee2e6;
             --cor-destaque: #e50914; /* Vermelho estilo streaming */
             --bg-info-slide: #e9ecef;
+            --bg-modal: rgba(0, 0, 0, 0.5);
         }
 
         [data-theme="dark"] {
@@ -24,6 +25,7 @@
             --borda: #2d2d2d;
             --cor-destaque: #ff1e27;
             --bg-info-slide: #252525;
+            --bg-modal: rgba(0, 0, 0, 0.8);
         }
 
         /* Configurações Gerais */
@@ -74,7 +76,7 @@
             font-size: 14px;
         }
 
-        /* Container Principal (Aproveita telas largas) */
+        /* Container Principal */
         .container {
             max-width: 1400px;
             margin: 30px auto;
@@ -103,7 +105,7 @@
             margin-bottom: 30px;
         }
 
-        /* Estilos do Carrossel Dinâmico Sem Cortes */
+        /* Estilos do Carrossel Principal */
         .carrossel-container {
             position: relative;
             width: 100%;
@@ -134,7 +136,6 @@
             z-index: 2;
         }
 
-        /* object-fit: contain garante que a imagem não seja cortada independente da proporção */
         .slide img {
             width: 100%;
             height: 100%;
@@ -152,16 +153,10 @@
 
         .info-slide {
             display: none;
-            animation: fadeInTexto 0.5s ease forward;
         }
 
         .info-slide.ativo-texto {
             display: block;
-        }
-
-        @keyframes fadeInTexto {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .categoria-filme {
@@ -253,7 +248,6 @@
             margin-bottom: 10px;
         }
 
-        /* Links que funcionam como botões */
         .btn-expandir {
             background: none;
             border: none;
@@ -267,6 +261,201 @@
 
         .btn-expandir:hover {
             text-decoration: underline;
+        }
+
+        /* ==========================================
+           NOVA SEÇÃO: CARROSSEL DE SUCESSOS DO CINEMA
+           ========================================== */
+        .secao-sucessos {
+            margin-top: 40px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .secao-sucessos h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--cor-destaque);
+            padding-left: 10px;
+        }
+
+        /* Janela de exibição que esconde o que passa do limite */
+        .mini-carrossel-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Linha contendo todos os filmes lado a lado */
+        .mini-carrossel-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Card Individual do Filme (Tamanho menor e idêntico) */
+        .filme-card {
+            min-width: calc(20% - 16px); /* Exibe exatamente 5 filmes por vez em telas grandes */
+            background-color: var(--bg-principal);
+            border: 1px solid var(--borda);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 1200px) { .filme-card { min-width: calc(25% - 15px); } }
+        @media (max-width: 900px) { .filme-card { min-width: calc(33.33% - 14px); } }
+        @media (max-width: 600px) { .filme-card { min-width: calc(50% - 10px); } }
+
+        .filme-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cor-destaque);
+        }
+
+        /* Imagem padrão de placeholder cinza estruturado caso falte upload */
+        .filme-img-box {
+            width: 100%;
+            height: 220px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .filme-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .filme-info-resumida {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .filme-info-resumida h4 {
+            font-size: 14px;
+            color: var(--texto-principal);
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .filme-info-resumida .genero-tag {
+            font-size: 11px;
+            color: var(--cor-destaque);
+            font-weight: bold;
+        }
+
+        /* Pontinhos de Controle (Dots) */
+        .carrossel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--borda);
+            cursor: pointer;
+            border: none;
+        }
+
+        .dot.ativo {
+            background-color: var(--cor-destaque);
+            transform: scale(1.2);
+        }
+
+        /* ==========================================
+           JANELA POPUP (MODAL)
+           ========================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-modal);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.aberto {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .fechar-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--texto-secundario);
+            cursor: pointer;
+        }
+
+        .fechar-modal:hover {
+            color: var(--cor-destaque);
+        }
+
+        .modal-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--texto-principal);
+            border-bottom: 2px solid var(--borda);
+            padding-bottom: 8px;
+        }
+
+        .modal-detalhe-item {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .modal-detalhe-item strong {
+            color: var(--cor-destaque);
         }
 
         /* Rodapé */
@@ -297,7 +486,7 @@
 </head>
 <body>
 
-        <header>
+    <header>
         <a href="#" class="logo">🎬 CineCritica News</a>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button class="btn-tema" id="btnOuvir" style="background-color: #2b2b2b; border: 1px solid var(--borda);">🤖 Ouvir IA</button>
@@ -310,77 +499,56 @@
             
             <section>
                 <div class="manchete-principal">
-                    
                     <div class="carrossel-container">
                         <div class="carrossel-slides" id="carrosselSlides">
-                            
-                            <div class="slide ativo">
-                                <img src="duna.jpg" alt="Duna">
-                            </div>
-
-                            <div class="slide">
-                                <img src="inter.jpg" alt="Interestelar">
-                            </div>
-
-                            <div class="slide">
-                                <img src="batman.jpg" alt="The Batman">
-                            </div>
-
+                            <div class="slide ativo"><img src="duna.jpg" alt="Duna"></div>
+                            <div class="slide"><img src="inter.jpg" alt="Interestelar"></div>
+                            <div class="slide"><img src="batman.jpg" alt="The Batman"></div>
                         </div>
                     </div>
 
                     <div class="info-slide-container">
-                        
                         <div class="info-slide ativo-texto">
                             <span class="categoria-filme">Ficção Científica</span>
                             <h3>Duna: Parte Dois</h3>
                             <p>A aclamada jornada de Paul Atreides continua em uma produção visualmente espetacular que redefine o cinema de ficção científica.</p>
                             <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
                         </div>
-
                         <div class="info-slide">
                             <span class="categoria-filme">Clássico Moderno</span>
                             <h3>Interestelar</h3>
                             <p>Uma obra-prima de Christopher Nolan que explora os limites do espaço, do tempo e das conexões humanas.</p>
                             <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
                         </div>
-
                         <div class="info-slide">
                             <span class="categoria-filme">Ação / Noir</span>
                             <h3>The Batman</h3>
                             <p>Uma abordagem sombria e investigativa do herói de Gotham, focada nos seus primeiros anos de combate ao crime.</p>
                             <span class="credito-imagem">Imagem: Divulgação Oficial / Busca Google</span>
                         </div>
-
                     </div>
 
                     <div class="conteudo-noticia">
                         <span class="categoria">Destaques da Semana</span>
                         <h2>Guerra nos Cinemas: Superprodução quebra recordes e divide a opinião dos críticos</h2>
                         <p>O mais novo blockbuster da temporada atingiu a marca histórica de 500 milhões de dólares em seu primeiro fim de semana. Enquanto o público lota as salas de cinema, os principais críticos do mercado debatem se o longa realmente entrega o que prometeu.</p>
-                        
                         <div class="conteudo-extra">
                             <p>No termômetro dos principais agregadores de notas, a divergência é evidente. A produção recebeu elogios massivos pelos efeitos visuais de última geração e pela trilha sonora imersiva, mas enfrentou duras críticas em relação ao ritmo do roteiro no segundo ato.</p>
                         </div>
-
                         <button class="btn-expandir" onclick="toggleNoticia(this)">Ler reportagem completa →</button>
                     </div>
-
                 </div>
             </section>
 
             <aside class="feed-lateral">
                 <h2 style="font-size: 20px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px;">Últimas Atualizações</h2>
-                
                 <div class="card-noticia">
                     <span class="categoria">Streaming</span>
-                    <h3>Telecine renova catálogo com os maiores successes do cinema cult e de ação</h3>
+                    <h3>Telecine renova catálogo com os maiores sucessos do cinema cult e de ação</h3>
                     <p>A plataforma confirmou a chegada de pacotes de filmes premiados em festivais internacionais para o próximo mês.</p>
-                    
                     <div class="conteudo-extra">
                         <p>Entre os destaques estão produções independentes que surpreenderam o circuito europeu e grandes franquias de ação remasterizadas. A curadoria promete agradar tanto os cinéfilos que buscam narrativas profundas quanto aqueles que procuram puro entretenimento de alta qualidade para o fim de semana.</p>
                     </div>
-
                     <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
                 </div>
 
@@ -388,17 +556,99 @@
                     <span class="categoria">Tendências</span>
                     <h3>Como as listas do IMDb estão moldando o que as pessoas assistem</h3>
                     <p>Algoritmos de recomendação e as famosas listas de "Top 250" viraram o principal guia para quem não quer perder tempo escolhendo filme.</p>
-                    
                     <div class="conteudo-extra">
                         <p>Pesquisas recentes indicam que 70% dos usuários consultam a nota da comunidade antes de dar o play em uma nova produção. Títulos antigos que entram para as listas de destaques da plataforma chegam a ter um aumento de até 40% na procura dentro dos serviços de streaming parceiros.</p>
                     </div>
-
                     <button class="btn-expandir" onclick="toggleNoticia(this)">Ler mais</button>
                 </div>
             </aside>
-
         </div>
+
+        <section class="secao-sucessos">
+            <h2>Sucessos do Cinema - Lançamentos 2026</h2>
+            <div class="mini-carrossel-wrapper">
+                <div class="mini-carrossel-track" id="miniCarrosselTrack">
+                    
+                    <div class="filme-card" onclick="abrirModal('Avatar 3: Portador da Semente', '12 anos', '190 min', 'Ficção Científica / Aventura', 'A exploração de Pandora continua, apresentando uma nova e agressiva tribo de Na\'vi associada ao elemento fogo e cinzas.')">
+                        <div class="filme-img-box"><img src="avatar3.jpg" alt="Avatar 3" onerror="this.style.display='none'">Avatar 3</div>
+                        <div class="filme-info-resumida"><h4>Avatar 3</h4><span class="genero-tag">Ficção Científica</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Vingadores: Doomsday', '14 anos', '165 min', 'Ação / Heróis', 'Os heróis da Terra enfrentam a ameaça suprema do Doutor Destino em um confronto que abala as estruturas do multiverso.')">
+                        <div class="filme-img-box"><img src="vingadores.jpg" alt="Vingadores" onerror="this.style.display='none'">Vingadores</div>
+                        <div class="filme-info-resumida"><h4>Vingadores</h4><span class="genero-tag">Heróis</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('The Mandalorian & Grogu', '10 anos', '125 min', 'Espacial / Aventura', 'Din Djarin e seu jovem aprendiz partem em uma missão crucial para proteger a Nova República contra remanescentes imperiais.')">
+                        <div class="filme-img-box"><img src="mando.jpg" alt="Mandalorian" onerror="this.style.display='none'">Mandalorian</div>
+                        <div class="filme-info-resumida"><h4>Mandalorian</h4><span class="genero-tag">Aventura</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Toy Story 5', 'Livre', '105 min', 'Animação / Família', 'Os brinquedos enfrentam um novo desafio tecnológico quando os dispositivos eletrônicos começam a roubar a atenção das crianças.')">
+                        <div class="filme-img-box"><img src="toystory5.jpg" alt="Toy Story 5" onerror="this.style.display='none'">Toy Story 5</div>
+                        <div class="filme-info-resumida"><h4>Toy Story 5</h4><span class="genero-tag">Animação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('The Batman: Part II', '16 anos', '170 min', 'Policial / Noir', 'Bruce Wayne desce ainda mais fundo no submundo criminoso de Gotham enfrentando uma conspiração criminosa sistêmica.')">
+                        <div class="filme-img-box"><img src="batman2.jpg" alt="The Batman 2" onerror="this.style.display='none'">The Batman 2</div>
+                        <div class="filme-info-resumida"><h4>The Batman 2</h4><span class="genero-tag">Policial</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Super Mario Bros. O Filme 2', 'Livre', '98 min', 'Animação / Comédia', 'Mario, Luigi e a Princesa Peach viajam para novos reinos vizinhos para deter uma aliança inesperada de vilões.')">
+                        <div class="filme-img-box"><img src="mario2.jpg" alt="Super Mario 2" onerror="this.style.display='none'">Super Mario 2</div>
+                        <div class="filme-info-resumida"><h4>Super Mario 2</h4><span class="genero-tag">Animação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Invocação do Mal 4: Os Últimos Ritos', '16 anos', '118 min', 'Terror / Sobrenatural', 'Ed e Lorraine Warren retornam para seu caso mais perigoso e documentado, prometendo encerrar a saga principal de investigações.')">
+                        <div class="filme-img-box"><img src="invocacao4.jpg" alt="Invocação do Mal 4" onerror="this.style.display='none'">Invocação 4</div>
+                        <div class="filme-info-resumida"><h4>Invocação 4</h4><span class="genero-tag">Terror</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Shrek 5', 'Livre', '110 min', 'Animação / Fantasia', 'O ogro mais querido do cinema retorna com o Burro e o Gato de Botas para uma nova aventura satírica no mundo dos contos de fadas.')">
+                        <div class="filme-img-box"><img src="shrek5.jpg" alt="Shrek 5" onerror="this.style.display='none'">Shrek 5</div>
+                        <div class="filme-info-resumida"><h4>Shrek 5</h4><span class="genero-tag">Animação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Blade Runner: Oneiroi', '16 anos', '145 min', 'Ficção Científica / Cyberpunk', 'Um novo detetive caçador de replicantes descobre segredos perdidos sobre a criação das consciências artificiais sintéticas.')">
+                        <div class="filme-img-box"><img src="br2026.jpg" alt="Blade Runner" onerror="this.style.display='none'">Blade Runner</div>
+                        <div class="filme-info-resumida"><h4>Blade Runner</h4><span class="genero-tag">Cyberpunk</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Piratas do Caribe: Marés de Mudança', '12 anos', '138 min', 'Ação / Capa e Espada', 'Um recomeço para a franquia nos mares agitados, trazendo mapas mitológicos perdidos e novos caçadores de tesouros lendários.')">
+                        <div class="filme-img-box"><img src="piratas.jpg" alt="Piratas do Caribe" onerror="this.style.display='none'">Piratas</div>
+                        <div class="filme-info-resumida"><h4>Piratas</h4><span class="genero-tag">Ação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('O Projeto Horizonte', '14 anos', '152 min', 'Drama / Épico', 'Um drama histórico emocionante detalhando a corrida espacial sob a ótica de engenheiros dos bastidores da engenharia.')">
+                        <div class="filme-img-box"><img src="horizonte.jpg" alt="Projeto Horizonte" onerror="this.style.display='none'">Horizonte</div>
+                        <div class="filme-info-resumida"><h4>Horizonte</h4><span class="genero-tag">Drama</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Eco da Meia-Noite', '16 anos', '102 min', 'Suspense / Psicológico', 'Um suspense psicológico claustrofóbico focado em um programador que percebe anomalias na automação de sua própria residência.')">
+                        <div class="filme-img-box"><img src="eco.jpg" alt="Eco da Meia Noite" onerror="this.style.display='none'">Eco Meia-Noite</div>
+                        <div class="filme-info-resumida"><h4>Eco Meia-Noite</h4><span class="genero-tag">Suspense</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Velozes e Furiosos 11', '14 anos', '140 min', 'Ação / Corrida', 'A conclusão épica da estrada percorrida por Dom Toretto e sua equipe, retornando às origens das corridas de rua urbanas.')">
+                        <div class="filme-img-box"><img src="velozes11.jpg" alt="Velozes 11" onerror="this.style.display='none'">Velozes 11</div>
+                        <div class="filme-info-resumida"><h4>Velozes 11</h4><span class="genero-tag">Ação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Zootopia 2', 'Livre', '108 min', 'Animação / Investigação', 'Judy Hopps e Nick Wilde retornam para desvendar um mistério envolvendo répteis e anfíbios no sofisticado distrito aquático da metrópole.')">
+                        <div class="filme-img-box"><img src="zootopia2.jpg" alt="Zootopia 2" onerror="this.style.display='none'">Zootopia 2</div>
+                        <div class="filme-info-resumida"><h4>Zootopia 2</h4><span class="genero-tag">Animação</span></div>
+                    </div>
+                    <div class="filme-card" onclick="abrirModal('Herdeiros da Terra', '12 anos', '134 min', 'Aventura / Fantasia', 'Um grupo de jovens exploradores descobre ruínas subterrâneas que provam a existência de uma civilização mágica esquecida.')">
+                        <div class="filme-img-box"><img src="herdeiros.jpg" alt="Herdeiros" onerror="this.style.display='none'">Herdeiros</div>
+                        <div class="filme-info-resumida"><h4>Herdeiros</h4><span class="genero-tag">Fantasia</span></div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="carrossel-dots" id="miniCarrosselDots"></div>
+        </section>
     </main>
+
+    <div class="modal-overlay" id="modalDetalhes" onclick="fecharModalExterno(event)">
+        <div class="modal-box">
+            <button class="fechar-modal" onclick="fecharModal()">&times;</button>
+            <h3 id="modalTitulo">Título do Filme</h3>
+            <div class="modal-detalhe-item"><strong>Classificação:</strong> <span id="modalClassificacao">--</span></div>
+            <div class="modal-detalhe-item"><strong>Duração:</strong> <span id="modalDuracao">--</span></div>
+            <div class="modal-detalhe-item"><strong>Gênero:</strong> <span id="modalGenero">--</span></div>
+            <div class="modal-detalhe-item" style="margin-top: 15px; border-top: 1px solid var(--borda); padding-top: 12px;">
+                <strong>Sinopse:</strong> <p id="modalSinopse" style="font-size: 14px; margin-top: 5px;"></p>
+            </div>
+        </div>
+    </div>
 
     <footer class="rodape-portal">
         <div class="conteudo-rodape">
@@ -438,58 +688,125 @@
             }
         }
 
-        // Lógica Sincronizada do Carrossel (Imagens e Textos de Forma Independente)
+        // Lógica Sincronizada do Carrossel de Cima
         const slidesImagens = document.querySelectorAll('.slide');
         const slidesTextos = document.querySelectorAll('.info-slide');
         let slideAtual = 0;
 
         function proximoSlide() {
-            // Sincroniza Imagens
             slidesImagens[slideAtual].classList.remove('ativo');
-            // Sincroniza Textos Informativos Abaixo
             slidesTextos[slideAtual].classList.remove('ativo-texto');
-            
             slideAtual = (slideAtual + 1) % slidesImagens.length;
-            
             slidesImagens[slideAtual].classList.add('ativo');
             slidesTextos[slideAtual].classList.add('ativo-texto');
         }
-
-        // Configuração de Intervalo Automático de 3 segundos
         setInterval(proximoSlide, 3000);
 
-        // Configuração da Assistente de Voz por Inteligência Artificial
+        // Assistente de Voz
         const btnOuvir = document.getElementById('btnOuvir');
-
-        function iniciarVozIA() {
-            // Verifica se o navegador suporta síntese de voz
+        btnOuvir.addEventListener('click', () => {
             if ('speechSynthesis' in window) {
-                // Cancela qualquer áudio que já esteja rodando para não encavalar
                 window.speechSynthesis.cancel();
-
-                // Texto que a IA vai falar
-                const textoParaFalar = "Olá! Bem-vindo ao CineCrítica News. Eu sou a sua assistente virtual de inteligência artificial. Os destaques de hoje trazem os recordes de bilheteria de Duna Parte Dois, as novidades cult no catálogo do Telecine e como as notas do I M D B estão mudando o mercado de streaming. Clique nos cartões para ler as críticas completas!";
-
-                // Cria a estrutura de fala
-                const fala = new SpeechSynthesisUtterance(textoParaFalar);
-                
-                // Configura o idioma para Português do Brasil
+                const fala = new SpeechSynthesisUtterance("Olá! Bem-vindo ao CineCrítica News. Confira abaixo a nossa nova seção Sucessos do Cinema com os quinze maiores lançamentos de dois mil e vinte e seis. Clique nos cards para abrir as classificações completas!");
                 fala.lang = 'pt-BR';
-                // Velocidade da voz (1 é o padrão, um pouquinho menos deixa mais natural)
-                fala.rate = 0.95; 
-                // Tom da voz
-                fala.pitch = 1; 
-
-                // Executa a voz
+                fala.rate = 0.95;
                 window.speechSynthesis.speak(fala);
-            } else {
-                alert("Desculpe, seu navegador não suporta a leitura de texto por voz.");
+            }
+        });
+
+        // ==========================================
+        // JAVASCRIPT: LOGICA DO CARROSSEL DE MINIATURAS & MODAL
+        // ==========================================
+        const track = document.getElementById('miniCarrosselTrack');
+        const dotsContainer = document.getElementById('miniCarrosselDots');
+        const totalFilmes = 15;
+        let grupoAtual = 0;
+
+        // Calcula quantos filmes aparecem por vez na tela dinamicamente
+        function obterFilmesPorGrupo() {
+            if (window.innerWidth <= 600) return 2;
+            if (window.innerWidth <= 900) return 3;
+            if (window.innerWidth <= 1200) return 4;
+            return 5;
+        }
+
+        let filmesPorGrupo = obterFilmesPorGrupo();
+        let totalGrupos = Math.ceil(totalFilmes / filmesPorGrupo);
+
+        // Cria os pontinhos (dots) dinamicamente com base no tamanho da tela
+        function criarDots() {
+            dotsContainer.innerHTML = '';
+            filmesPorGrupo = obterFilmesPorGrupo();
+            totalGrupos = Math.ceil(totalFilmes / filmesPorGrupo);
+
+            for (let i = 0; i < totalGrupos; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('ativo');
+                dot.addEventListener('click', () => moverCarrossel(i));
+                dotsContainer.appendChild(dot);
             }
         }
 
-        // Ativa a voz quando o usuário clica no botão "Ouvir IA"
-        btnOuvir.addEventListener('click', iniciarVozIA);
-    </script>
+        function moverCarrossel(indiceGrupo) {
+            grupoAtual = indiceGrupo;
+            const itemWidth = document.querySelector('.filme-card').offsetWidth + 20; // card + gap
+            const deslocamento = indiceGrupo * filmesPorGrupo * itemWidth;
+            
+            track.style.transform = `translateX(-${deslocamento}px)`;
 
+            // Atualiza os pontinhos ativos
+            const todosDots = document.querySelectorAll('.dot');
+            todosDots.forEach((d, idx) => {
+                if (idx === indiceGrupo) d.classList.add('ativo');
+                else d.classList.remove('ativo');
+            });
+        }
+
+        // Passar automaticamente o carrossel de baixo a cada 4 segundos
+        function carrosselAutomaticoBaixo() {
+            let proximoGrupo = grupoAtual + 1;
+            if (proximoGrupo >= totalGrupos) proximoGrupo = 0;
+            moverCarrossel(proximoGrupo);
+        }
+        let timerBaixo = setInterval(carrosselAutomaticoBaixo, 4000);
+
+        // Reinicia o temporizador se o usuário clicar em algum pontinho manualmente
+        dotsContainer.addEventListener('click', () => {
+            clearInterval(timerBaixo);
+            timerBaixo = setInterval(carrosselAutomaticoBaixo, 4000);
+        });
+
+        window.addEventListener('resize', () => {
+            criarDots();
+            moverCarrossel(0);
+        });
+        
+        // Inicializa os pontinhos na partida
+        criarDots();
+
+        // FUNÇÕES DO POPUP (MODAL)
+        const modal = document.getElementById('modalDetalhes');
+        
+        function abrirModal(titulo, classe, tempo, genero, sinopse) {
+            document.getElementById('modalTitulo').textContent = titulo;
+            document.getElementById('modalClassificacao').textContent = classe;
+            document.getElementById('modalDuracao').textContent = tempo;
+            document.getElementById('modalGenero').textContent = genero;
+            document.getElementById('modalSinopse').textContent = sinopse;
+            
+            modal.classList.add('aberto');
+        }
+
+        function fecharModal() {
+            modal.classList.remove('aberto');
+        }
+
+        function fecharModalExterno(event) {
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+    </script>
 </body>
 </html>
